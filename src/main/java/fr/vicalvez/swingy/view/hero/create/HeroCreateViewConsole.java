@@ -11,11 +11,19 @@ import java.util.Scanner;
 public class HeroCreateViewConsole extends ConsoleView {
 
 	@Override
-	public void open(GameController gameController)
-	{
+	public void open(GameController gameController) {
 		Scanner scanner = new Scanner(System.in);
 
-		System.out.println("Select an hero type:");
+		if (!selectHeroType(scanner, gameController)) return ;
+
+		askHeroName(scanner, gameController);
+
+		gameController.openView(ViewType.HERO_DETAILS);
+		gameController.openView(ViewType.GAME_LEVEL);
+	}
+
+	private boolean selectHeroType(Scanner scanner, GameController gameController) {
+		System.out.println("Select a hero type:");
 		Arrays.stream(HeroType.values()).forEach(type -> {
 			System.out.println("- " + type
 					+ "; Attack: " + type.getDefaultAttack()
@@ -24,23 +32,21 @@ public class HeroCreateViewConsole extends ConsoleView {
 		});
 
 		String typeStr = scanner.nextLine();
-
-		HeroType type;
-		try {
-			type = HeroType.valueOf(typeStr);
-		}
-		catch (Exception e) {
-			System.out.println("Invalid type");
+		if (!gameController.getHeroController().createHero(typeStr)) {
 			gameController.openView(ViewType.HERO_CREATE);
-			return ;
+			return false;
 		}
+		return true;
+	}
 
+	private void askHeroName(Scanner scanner, GameController gameController) {
 		System.out.println("Enter hero name:");
 		String heroName = scanner.nextLine();
-		// todo check input
-		gameController.getHeroController().createHero(heroName, type);
-		gameController.openView(ViewType.HERO_DETAILS);
-		gameController.openView(ViewType.GAME_LEVEL);
+
+		while (!gameController.getHeroController().setHeroName(heroName)) {
+			System.out.println("Enter hero name:");
+			heroName = scanner.nextLine();
+		}
 	}
 
 }

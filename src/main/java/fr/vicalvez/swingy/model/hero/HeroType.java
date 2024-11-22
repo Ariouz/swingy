@@ -1,5 +1,6 @@
 package fr.vicalvez.swingy.model.hero;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 public enum HeroType {
@@ -41,5 +42,13 @@ public enum HeroType {
 
 	public int getDefaultAttribute(HeroAttribute attribute) {
 		return defaultAttribute.get(attribute);
+	}
+
+	public static HeroType getByName(String name)
+	{
+		return Arrays.stream(values())
+				.filter(type -> type.name().equals(name))
+				.findFirst()
+				.orElse(null);
 	}
 }

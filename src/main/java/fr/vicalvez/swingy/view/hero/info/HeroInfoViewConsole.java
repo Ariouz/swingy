@@ -12,6 +12,7 @@ public class HeroInfoViewConsole extends ConsoleView {
 	public void open(GameController gameController) {
 		Hero hero = gameController.getHeroController().getHero();
 		HeroLevel heroLevel = hero.getLevel();
+
 		System.out.println("Hero information:");
 		System.out.println("Name: " + hero.getName());
 		System.out.println("Type: " + hero.getType().toString().toLowerCase());
