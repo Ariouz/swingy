@@ -8,9 +8,15 @@ public class HeroController {
 
 	private Hero hero;
 
-	public HeroController() { }
+	private final GameController gameController;
 
-	public void loadHero(String heroName) { }
+	public HeroController(GameController gameController) {
+		this.gameController = gameController;
+	}
+
+	public void loadHero(String heroName) {
+		this.gameController.getLevelController().getMap().setHero(this.hero);
+	}
 
 	public boolean createHero(String typeStr)
 	{
@@ -25,6 +31,7 @@ public class HeroController {
 
 		this.hero = hero;
 		this.hero.loadDefaults();
+		this.gameController.getLevelController().getMap().setHero(this.hero);
 		return true;
 	}
 
@@ -35,6 +42,7 @@ public class HeroController {
 
 		if (ValidationUtil.isInvalid(hero))
 		{
+			ValidationUtil.printValidationError(hero);
 			this.getHero().setName(tmp);
 			return false;
 		}

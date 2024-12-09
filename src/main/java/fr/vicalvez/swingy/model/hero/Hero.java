@@ -1,5 +1,7 @@
 package fr.vicalvez.swingy.model.hero;
 
+import fr.vicalvez.swingy.model.Location;
+import fr.vicalvez.swingy.model.game.Direction;
 import fr.vicalvez.swingy.validators.EnumConstraint;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -16,6 +18,8 @@ public class Hero {
 
 	private HeroLevel level;
 	private HeroStats stats;
+	private Location location;
+	private Direction lastMove = Direction.NONE;
 
 	public Hero(HeroType type)
 	{
@@ -27,6 +31,7 @@ public class Hero {
 		this.name = name;
 		this.level = new HeroLevel(name); // todo load
 		this.stats = new HeroStats(name); // todo load
+		this.location = new Location(0, 0);
 		// todo load type
 	}
 
@@ -34,6 +39,7 @@ public class Hero {
 	{
 		this.level = new HeroLevel();
 		this.stats = new HeroStats(type);
+		this.location = new Location(0, 0);
 	}
 
 	public void setName(String name) {
@@ -54,5 +60,17 @@ public class Hero {
 
 	public HeroStats getStats() {
 		return stats;
+	}
+
+	public Location getLocation() {
+		return location;
+	}
+
+	public Direction getLastMove() {
+		return lastMove;
+	}
+
+	public void setLastMove(Direction lastMove) {
+		this.lastMove = lastMove;
 	}
 }

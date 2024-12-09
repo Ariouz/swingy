@@ -1,0 +1,44 @@
+package fr.vicalvez.swingy.view.level;
+
+import fr.vicalvez.swingy.controller.GameController;
+import fr.vicalvez.swingy.model.game.Direction;
+import fr.vicalvez.swingy.model.hero.HeroType;
+import fr.vicalvez.swingy.view.ConsoleView;
+import fr.vicalvez.swingy.view.ViewType;
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class LevelViewConsole extends ConsoleView {
+
+	@Override
+	public void open(GameController gameController) {
+		gameController.getLevelController().printLevel();
+
+		if (!askDirection(gameController)) return;
+
+		if (gameController.getLevelController().checkLevelWin())
+			// TODO PLAY AGAIN OR EXIT VIEW
+			return ;
+
+		gameController.openView(ViewType.GAME_LEVEL);
+	}
+
+	public boolean askDirection(GameController gameController)
+	{
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Choose a direction");
+		Arrays.stream(Direction.values())
+				.filter(type -> type != Direction.NONE)
+				.forEach(type -> System.out.println("- " + type)) ;
+
+		String directionStr = scanner.nextLine();
+		if (!gameController.getLevelController().getMap().goTo(directionStr))
+		{
+			gameController.openView(ViewType.GAME_LEVEL);
+			return false;
+		}
+		return true;
+	}
+
+}

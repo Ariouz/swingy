@@ -1,5 +1,6 @@
 package fr.vicalvez.swingy.controller;
 
+import fr.vicalvez.swingy.model.game.Map;
 import fr.vicalvez.swingy.view.GameView;
 import fr.vicalvez.swingy.view.ViewType;
 
@@ -7,13 +8,15 @@ public class GameController {
 
 	private final HeroController heroController;
 	private final StartController startController;
+	private final LevelController levelController;
 
 	private RunMode mode;
 
 	public GameController(RunMode mode) {
 		this.mode = mode;
-		this.heroController = new HeroController();
+		this.heroController = new HeroController(this);
 		this.startController = new StartController();
+		this.levelController = new LevelController(this);
 	}
 
 	public void openView(ViewType viewType) {
@@ -45,5 +48,9 @@ public class GameController {
 
 	public StartController getStartController() {
 		return startController;
+	}
+
+	public LevelController getLevelController() {
+		return levelController;
 	}
 }

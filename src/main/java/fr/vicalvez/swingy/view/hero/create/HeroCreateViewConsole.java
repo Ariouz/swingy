@@ -19,6 +19,7 @@ public class HeroCreateViewConsole extends ConsoleView {
 		askHeroName(scanner, gameController);
 
 		gameController.openView(ViewType.HERO_DETAILS);
+		gameController.getLevelController().nextLevel(gameController.getHeroController().getHero());
 		gameController.openView(ViewType.GAME_LEVEL);
 	}
 
