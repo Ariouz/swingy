@@ -15,7 +15,7 @@ public class HeroController {
 	}
 
 	public void loadHero(String heroName) {
-		this.gameController.getLevelController().getMap().setHero(this.hero);
+		this.gameController.getLevelController().getMapController().getMap().setHero(this.hero);
 	}
 
 	public boolean createHero(String typeStr)
@@ -31,7 +31,7 @@ public class HeroController {
 
 		this.hero = hero;
 		this.hero.loadDefaults();
-		this.gameController.getLevelController().getMap().setHero(this.hero);
+		this.gameController.getLevelController().getMapController().generate(hero);
 		return true;
 	}
 

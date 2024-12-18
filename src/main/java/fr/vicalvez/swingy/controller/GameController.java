@@ -9,6 +9,7 @@ public class GameController {
 	private final HeroController heroController;
 	private final StartController startController;
 	private final LevelController levelController;
+	private final CombatController combatController;
 
 	private RunMode mode;
 
@@ -17,6 +18,7 @@ public class GameController {
 		this.heroController = new HeroController(this);
 		this.startController = new StartController();
 		this.levelController = new LevelController(this);
+		this.combatController = new CombatController(this);
 	}
 
 	public void openView(ViewType viewType) {
@@ -52,5 +54,9 @@ public class GameController {
 
 	public LevelController getLevelController() {
 		return levelController;
+	}
+
+	public CombatController getCombatController() {
+		return combatController;
 	}
 }

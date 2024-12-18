@@ -21,7 +21,6 @@ public class LevelViewConsole extends ConsoleView {
 			// TODO PLAY AGAIN OR EXIT VIEW
 			return ;
 
-		gameController.openView(ViewType.GAME_LEVEL);
 	}
 
 	public boolean askDirection(GameController gameController)
@@ -33,7 +32,7 @@ public class LevelViewConsole extends ConsoleView {
 				.forEach(type -> System.out.println("- " + type)) ;
 
 		String directionStr = scanner.nextLine();
-		if (!gameController.getLevelController().getMap().goTo(directionStr))
+		if (!gameController.getLevelController().getMapController().goTo(directionStr))
 		{
 			gameController.openView(ViewType.GAME_LEVEL);
 			return false;

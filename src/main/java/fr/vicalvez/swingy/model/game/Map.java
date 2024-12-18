@@ -59,16 +59,18 @@ public class Map {
 		return villains.keySet().stream().anyMatch(loc -> loc.equals(location));
 	}
 
+	public Villain getVillainAt(Location location)
+	{
+		Location loc = villains.keySet().stream().filter(villainLoc -> villainLoc.equals(location)).findFirst().orElse(null);
+		return villains.get(loc);
+	}
+
 	public int getMapSize()
 	{
 		int level = hero.getLevel().getLevel();
 		return (level - 1) * 5 + 10 - (level % 2);
 	}
 
-	public void setHero(Hero hero) {
-		this.hero = hero;
-		this.spreadVillains();
-	}
 
 	public Location getMapCenterLocation()
 	{
@@ -82,44 +84,11 @@ public class Map {
 		location.set(center.getX(), center.getY());
 	}
 
-	public boolean goTo(String directionStr)
-	{
-		DirectionWrapper directionWrapper = new DirectionWrapper(directionStr);
-
-		if (ValidationUtil.isInvalid(directionWrapper))
-		{
-			ValidationUtil.printValidationError(directionWrapper);
-			return false;
-		}
-
-		Direction direction = Direction.valueOf(directionStr);
-		go(direction, false);
-		return true;
+	public void setHero(Hero hero) {
+		this.hero = hero;
 	}
 
-	public void go(Direction direction, boolean opposite)
-	{
-		Location location = hero.getLocation();
-
-		if (opposite)
-		{
-			location.removeX(direction.getXOffset());
-			location.removeY(direction.getYOffset());
-		}
-		else {
-			location.addX(direction.getXOffset());
-			location.addY(direction.getYOffset());
-		}
+	public Hero getHero() {
+		return hero;
 	}
-
-	public boolean isOnBorder()
-	{
-		Location location = hero.getLocation();
-		int mapSize = getMapSize();
-
-		return (location.getX() == 0 || location.getX() == mapSize - 1) ||
-				(location.getY() == 0 || location.getY() == mapSize - 1);
-	}
-
-
 }

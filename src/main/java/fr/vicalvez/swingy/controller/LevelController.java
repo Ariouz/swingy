@@ -6,34 +6,35 @@ import fr.vicalvez.swingy.model.hero.Hero;
 public class LevelController {
 
 	private final GameController gameController;
-	private final Map map;
+	private final MapController mapController;
 
 	public LevelController(GameController gameController)
 	{
 		this.gameController = gameController;
-		this.map = new Map();
+		this.mapController = new MapController(gameController);
 	}
 
 	public void nextLevel(Hero hero)
 	{
-		this.map.setLocationToCenter(hero.getLocation());
+		this.mapController.getMap().setLocationToCenter(hero.getLocation());
 	}
 
 	public void printLevel()
 	{
-		this.map.printMap();
+		this.mapController.getMap().printMap();
 	}
 
 	public boolean checkLevelWin()
 	{
-		if (!map.isOnBorder())
+		if (!mapController.isOnBorder(gameController.getHeroController().getHero().getLocation()))
 			return false;
 		System.out.println("Congrats, you win!");
 		return true;
 	}
 
-	public Map getMap() {
-		return map;
+	public MapController getMapController() {
+		return mapController;
 	}
+
 
 }
