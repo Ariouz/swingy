@@ -1,8 +1,8 @@
-package fr.vicalvez.swingy.view.hero.create;
+package fr.vicalvez.swingy.view.console.hero.create;
 
 import fr.vicalvez.swingy.controller.GameController;
 import fr.vicalvez.swingy.model.hero.HeroType;
-import fr.vicalvez.swingy.view.ConsoleView;
+import fr.vicalvez.swingy.view.console.ConsoleView;
 import fr.vicalvez.swingy.view.ViewType;
 
 import java.util.Arrays;
@@ -44,7 +44,7 @@ public class HeroCreateViewConsole extends ConsoleView {
 		System.out.println("Enter hero name:");
 		String heroName = scanner.nextLine();
 
-		while (!gameController.getHeroController().setHeroName(heroName)) {
+		while (!gameController.getHeroController().setHeroName(heroName, null)) {
 			System.out.println("Enter hero name:");
 			heroName = scanner.nextLine();
 		}

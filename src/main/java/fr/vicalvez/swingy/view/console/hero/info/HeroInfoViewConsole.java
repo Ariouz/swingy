@@ -1,10 +1,10 @@
-package fr.vicalvez.swingy.view.hero.info;
+package fr.vicalvez.swingy.view.console.hero.info;
 
 import fr.vicalvez.swingy.controller.GameController;
 import fr.vicalvez.swingy.model.hero.Hero;
 import fr.vicalvez.swingy.model.hero.HeroAttribute;
 import fr.vicalvez.swingy.model.hero.HeroLevel;
-import fr.vicalvez.swingy.view.ConsoleView;
+import fr.vicalvez.swingy.view.console.ConsoleView;
 
 public class HeroInfoViewConsole extends ConsoleView {
 

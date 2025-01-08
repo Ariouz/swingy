@@ -1,10 +1,10 @@
-package fr.vicalvez.swingy.view.level.villain;
+package fr.vicalvez.swingy.view.console.level.villain;
 
 import fr.vicalvez.swingy.controller.GameController;
 import fr.vicalvez.swingy.model.hero.Hero;
 import fr.vicalvez.swingy.model.villains.CombatAction;
 import fr.vicalvez.swingy.model.villains.Villain;
-import fr.vicalvez.swingy.view.ConsoleView;
+import fr.vicalvez.swingy.view.console.ConsoleView;
 import fr.vicalvez.swingy.view.ViewType;
 
 import java.util.Arrays;

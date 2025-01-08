@@ -1,8 +1,7 @@
-package fr.vicalvez.swingy.view.start;
+package fr.vicalvez.swingy.view.console.start;
 
 import fr.vicalvez.swingy.controller.GameController;
-import fr.vicalvez.swingy.view.ConsoleView;
-import fr.vicalvez.swingy.view.GameView;
+import fr.vicalvez.swingy.view.console.ConsoleView;
 import fr.vicalvez.swingy.view.ViewType;
 
 import java.util.Scanner;

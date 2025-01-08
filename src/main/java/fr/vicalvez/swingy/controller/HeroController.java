@@ -4,6 +4,8 @@ import fr.vicalvez.swingy.model.hero.Hero;
 import fr.vicalvez.swingy.model.hero.HeroType;
 import fr.vicalvez.swingy.validators.ValidationUtil;
 
+import javax.swing.*;
+
 public class HeroController {
 
 	private Hero hero;
@@ -25,7 +27,7 @@ public class HeroController {
 
 		if (ValidationUtil.isInvalid(hero))
 		{
-			ValidationUtil.printValidationError(hero);
+			ValidationUtil.printValidationError(hero, null, gameController.getMode());
 			return false;
 		}
 
@@ -35,14 +37,14 @@ public class HeroController {
 		return true;
 	}
 
-	public boolean setHeroName(String name)
+	public boolean setHeroName(String name, JLabel errorLabel)
 	{
 		String tmp = this.hero.getName();
 		this.hero.setName(name);
 
 		if (ValidationUtil.isInvalid(hero))
 		{
-			ValidationUtil.printValidationError(hero);
+			ValidationUtil.printValidationError(hero, errorLabel, gameController.getMode());
 			this.getHero().setName(tmp);
 			return false;
 		}

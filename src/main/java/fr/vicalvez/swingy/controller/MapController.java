@@ -31,7 +31,7 @@ public class MapController {
 
 		if (ValidationUtil.isInvalid(directionWrapper))
 		{
-			ValidationUtil.printValidationError(directionWrapper);
+			ValidationUtil.printValidationError(directionWrapper, null, gameController.getMode());
 			return false;
 		}
 

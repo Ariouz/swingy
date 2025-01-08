@@ -1,9 +1,8 @@
-package fr.vicalvez.swingy.view.level;
+package fr.vicalvez.swingy.view.console.level;
 
 import fr.vicalvez.swingy.controller.GameController;
 import fr.vicalvez.swingy.model.game.Direction;
-import fr.vicalvez.swingy.model.hero.HeroType;
-import fr.vicalvez.swingy.view.ConsoleView;
+import fr.vicalvez.swingy.view.console.ConsoleView;
 import fr.vicalvez.swingy.view.ViewType;
 
 import java.util.Arrays;

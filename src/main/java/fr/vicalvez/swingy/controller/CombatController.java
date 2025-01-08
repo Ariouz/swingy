@@ -33,7 +33,7 @@ public class CombatController {
 		CombatActionWrapper wrapper = new CombatActionWrapper(action);
 		if (ValidationUtil.isInvalid(wrapper))
 		{
-			ValidationUtil.printValidationError(wrapper);
+			ValidationUtil.printValidationError(wrapper, null, gameController.getMode());
 			return false;
 		}
 
@@ -47,11 +47,11 @@ public class CombatController {
 			return;
 		}
 
-		int rand = new Random().nextInt() % 2;
+		int rand = new Random().nextInt(2);
 		if (rand == 0){
 			System.out.println("You fell on a rock while running, you got to fight!");
 			this.simulateCombat();
-			return ;
+			return;
 		}
 
 		Hero hero = gameController.getHeroController().getHero();

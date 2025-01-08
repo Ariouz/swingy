@@ -1,10 +1,12 @@
 package fr.vicalvez.swingy.validators;
 
+import fr.vicalvez.swingy.controller.RunMode;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 
+import javax.swing.*;
 import java.util.Set;
 
 public class ValidationUtil {
@@ -15,13 +17,16 @@ public class ValidationUtil {
 		return !violations.isEmpty();
 	}
 
-	public static <T> void printValidationError(T object)
+	public static <T> void printValidationError(T object, JLabel errorLabel, RunMode mode)
 	{
 		Set<ConstraintViolation<T>> violations = getValidator().validate(object);
-		// todo display instead of printing for GUI mode
-		violations.forEach(violation ->
-				System.out.println(violation.getPropertyPath() + ": " + violation.getMessage())
-		);
+		violations.forEach(violation -> {
+			if (mode == RunMode.CONSOLE)
+				System.out.println(violation.getPropertyPath() + ": " + violation.getMessage());
+			else {
+				errorLabel.setText(violation.getMessage());
+			}
+		});
 	}
 
 	private static Validator getValidator() {

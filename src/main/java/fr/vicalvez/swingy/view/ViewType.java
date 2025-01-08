@@ -1,34 +1,39 @@
 package fr.vicalvez.swingy.view;
 
-import fr.vicalvez.swingy.view.hero.create.HeroCreateViewConsole;
-import fr.vicalvez.swingy.view.hero.info.HeroInfoViewConsole;
-import fr.vicalvez.swingy.view.level.LevelViewConsole;
-import fr.vicalvez.swingy.view.level.villain.MeetVillainViewConsole;
-import fr.vicalvez.swingy.view.start.StartViewConsole;
+import fr.vicalvez.swingy.view.console.ConsoleView;
+import fr.vicalvez.swingy.view.console.hero.create.HeroCreateViewConsole;
+import fr.vicalvez.swingy.view.gui.hero.HeroCreateViewGUI;
+import fr.vicalvez.swingy.view.console.hero.info.HeroInfoViewConsole;
+import fr.vicalvez.swingy.view.console.level.LevelViewConsole;
+import fr.vicalvez.swingy.view.console.level.villain.MeetVillainViewConsole;
+import fr.vicalvez.swingy.view.console.start.StartViewConsole;
 
 public enum ViewType {
 
-	START(StartViewConsole.class, null),
-	HERO_CREATE(HeroCreateViewConsole.class, null),
-	HERO_DETAILS(HeroInfoViewConsole.class, null),
-	GAME_LEVEL(LevelViewConsole.class, null),
-	MEET_VILLAIN(MeetVillainViewConsole.class, null),
+	START(StartViewConsole.class, "startView"),
+	HERO_CREATE(HeroCreateViewConsole.class, "heroCreateType"),
+	HERO_DETAILS(HeroInfoViewConsole.class, ""),
+	GAME_LEVEL(LevelViewConsole.class, ""),
+	MEET_VILLAIN(MeetVillainViewConsole.class, ""),
+
+	// GUI ONLY
+	HERO_NAME(null, "heroCreateName")
 	;
 
 	private final Class<? extends ConsoleView> consoleClass;
-	private final Class<? extends GUIView> guiClass;
+	private final String guiPanelName;
 
-	ViewType(Class<? extends ConsoleView> consoleClass, Class<? extends GUIView> guiClass)
+	ViewType(Class<? extends ConsoleView> consoleClass, String guiPanelName)
 	{
 		this.consoleClass = consoleClass;
-		this.guiClass = guiClass;
+		this.guiPanelName = guiPanelName;
 	}
 
 	public Class<? extends ConsoleView> getConsoleClass() {
 		return consoleClass;
 	}
 
-	public Class<? extends GUIView> getGuiClass() {
-		return guiClass;
+	public String getGuiPanelName() {
+		return guiPanelName;
 	}
 }
