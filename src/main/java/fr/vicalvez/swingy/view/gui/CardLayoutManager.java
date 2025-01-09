@@ -3,15 +3,23 @@ package fr.vicalvez.swingy.view.gui;
 import fr.vicalvez.swingy.controller.GameController;
 import fr.vicalvez.swingy.view.ViewType;
 import fr.vicalvez.swingy.view.gui.hero.HeroCreateViewGUI;
+import fr.vicalvez.swingy.view.gui.level.LevelViewGUI;
 import fr.vicalvez.swingy.view.gui.start.StartViewGUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class CardLayoutManager extends JFrame  {
 
 	private final CardLayout cardLayout;
 	private final Container contentPane;
+	private final GameController gameController;
+
+	private LevelViewGUI levelViewGUI;
+
+	private final HashMap<ViewType, JPanel>  panels = new HashMap<>();
 
 	public CardLayoutManager(GameController gameController)
 	{
@@ -22,6 +30,7 @@ public class CardLayoutManager extends JFrame  {
 		this.setLocationRelativeTo(null);
 		this.setVisible(false);
 
+		this.gameController = gameController;
 		this.cardLayout = new CardLayout();
 		this.contentPane = getContentPane();
 
@@ -30,6 +39,7 @@ public class CardLayoutManager extends JFrame  {
 
 	public void showView(String viewName)
 	{
+		if (viewName.equals(ViewType.GAME_LEVEL.getGuiPanelName())) updateLevelView();
 		this.cardLayout.show(contentPane, viewName);
 	}
 
@@ -37,12 +47,23 @@ public class CardLayoutManager extends JFrame  {
 	{
 		StartViewGUI startViewGUI = new StartViewGUI();
 		HeroCreateViewGUI heroCreateViewGUI = new HeroCreateViewGUI();
+		levelViewGUI = new LevelViewGUI();
 
 		contentPane.setLayout(this.cardLayout);
 
 		contentPane.add(ViewType.START.getGuiPanelName(), startViewGUI.createStartPanel(gameController));
 		contentPane.add(ViewType.HERO_CREATE.getGuiPanelName(), heroCreateViewGUI.createHeroTypeView(gameController));
 		contentPane.add(ViewType.HERO_NAME.getGuiPanelName(), heroCreateViewGUI.createHeroNameView(gameController));
+
+		JPanel levelPanel = levelViewGUI.createLevelView(gameController);
+		panels.put(ViewType.GAME_LEVEL, levelPanel);
+		contentPane.add(ViewType.GAME_LEVEL.getGuiPanelName(), levelPanel);
+	}
+
+	public void updateLevelView()
+	{
+		levelViewGUI.updateHeroInfoPanel(gameController.getHeroController().getHero());
+		levelViewGUI.updateMapToTextPane(gameController.getLevelController().getMapController().getMap(), gameController.getHeroController().getHero());
 	}
 
 }

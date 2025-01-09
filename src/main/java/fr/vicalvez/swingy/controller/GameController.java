@@ -17,18 +17,18 @@ public class GameController {
 	private RunMode mode;
 
 	public GameController(RunMode mode) {
-		this.cardLayoutManager = new CardLayoutManager(this);
 		this.heroController = new HeroController(this);
 		this.startController = new StartController();
 		this.levelController = new LevelController(this);
 		this.combatController = new CombatController(this);
 
+		this.cardLayoutManager = new CardLayoutManager(this);
 		setMode(mode);
 	}
 
 	public void openView(ViewType viewType) {
 		if (this.mode == RunMode.GUI) {
-			this.cardLayoutManager.showView("startView");
+			this.cardLayoutManager.showView(viewType.getGuiPanelName());
 			return ;
 		}
 

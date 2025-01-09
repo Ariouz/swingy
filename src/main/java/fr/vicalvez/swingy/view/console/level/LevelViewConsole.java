@@ -17,7 +17,7 @@ public class LevelViewConsole extends ConsoleView {
 		if (!askDirection(gameController)) return;
 
 		if (gameController.getLevelController().checkLevelWin())
-			// TODO PLAY AGAIN OR EXIT VIEW
+			// TODO PLAY NEXT LEVEL OR EXIT VIEW
 			return ;
 
 	}

@@ -48,6 +48,7 @@ public class HeroController {
 			this.getHero().setName(tmp);
 			return false;
 		}
+		gameController.getLevelController().nextLevel(gameController.getHeroController().getHero());
 		return true;
 	}
 

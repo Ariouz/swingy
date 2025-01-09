@@ -73,7 +73,7 @@ public class HeroCreateViewGUI {
 	{
 		button.addActionListener(event -> {
 			gameController.getHeroController().createHero(type.name());
-			gameController.getCardLayoutManager().showView(ViewType.HERO_NAME.getGuiPanelName());
+			gameController.openView(ViewType.HERO_NAME);
 		});
 	}
 
@@ -128,7 +128,8 @@ public class HeroCreateViewGUI {
 	{
 		button.addActionListener(event -> {
 			if (!gameController.getHeroController().setHeroName(input.getText(), errorLabel)) return ;
-			System.out.println("Next view, name: " + input.getText());
+			System.out.println("Next view, name: " + input.getText() + " type: " + gameController.getHeroController().getHero().getType());
+			gameController.openView(ViewType.GAME_LEVEL);
 		});
 	}
 

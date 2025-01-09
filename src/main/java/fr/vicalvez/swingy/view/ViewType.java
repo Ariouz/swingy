@@ -13,12 +13,12 @@ public enum ViewType {
 	START(StartViewConsole.class, "startView"),
 	HERO_CREATE(HeroCreateViewConsole.class, "heroCreateType"),
 	HERO_DETAILS(HeroInfoViewConsole.class, ""),
-	GAME_LEVEL(LevelViewConsole.class, ""),
+	GAME_LEVEL(LevelViewConsole.class, "levelView"),
 	MEET_VILLAIN(MeetVillainViewConsole.class, ""),
 
 	// GUI ONLY
-	HERO_NAME(null, "heroCreateName")
-	;
+	HERO_NAME(null, "heroCreateName"),
+	HERO_SELECT(null, "");
 
 	private final Class<? extends ConsoleView> consoleClass;
 	private final String guiPanelName;

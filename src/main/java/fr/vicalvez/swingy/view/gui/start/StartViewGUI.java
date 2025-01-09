@@ -34,18 +34,18 @@ public class StartViewGUI {
 		buttonsPanel.add(createButton);
 		buttonsPanel.add(selectButton);
 
-		setButtonClickActionValue(createButton, ViewType.HERO_CREATE.getGuiPanelName(), gameController);
-		setButtonClickActionValue(selectButton, "SELECT", gameController);
+		setButtonClickActionValue(createButton, ViewType.HERO_CREATE, gameController);
+		setButtonClickActionValue(selectButton, ViewType.HERO_SELECT, gameController);
 
 		panel.add(buttonsPanel);
 
 		return panel;
 	}
 
-	public void setButtonClickActionValue(JButton button, String viewName, GameController gameController)
+	public void setButtonClickActionValue(JButton button, ViewType viewType, GameController gameController)
 	{
 		button.addActionListener(e -> {
-			gameController.getCardLayoutManager().showView(viewName);
+			gameController.openView(viewType);
 		});
 	}
 
