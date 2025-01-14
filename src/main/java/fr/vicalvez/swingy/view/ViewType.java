@@ -7,6 +7,7 @@ import fr.vicalvez.swingy.view.console.hero.info.HeroInfoViewConsole;
 import fr.vicalvez.swingy.view.console.level.LevelViewConsole;
 import fr.vicalvez.swingy.view.console.level.villain.MeetVillainViewConsole;
 import fr.vicalvez.swingy.view.console.start.StartViewConsole;
+import fr.vicalvez.swingy.view.gui.level.VillainMeetViewGUI;
 
 public enum ViewType {
 
@@ -14,7 +15,7 @@ public enum ViewType {
 	HERO_CREATE(HeroCreateViewConsole.class, "heroCreateType"),
 	HERO_DETAILS(HeroInfoViewConsole.class, ""),
 	GAME_LEVEL(LevelViewConsole.class, "levelView"),
-	MEET_VILLAIN(MeetVillainViewConsole.class, ""),
+	MEET_VILLAIN(MeetVillainViewConsole.class, "meetVillain"),
 
 	// GUI ONLY
 	HERO_NAME(null, "heroCreateName"),
