@@ -2,8 +2,10 @@ package fr.vicalvez.swingy.view.gui;
 
 import fr.vicalvez.swingy.controller.GameController;
 import fr.vicalvez.swingy.view.ViewType;
+import fr.vicalvez.swingy.view.gui.hero.DeathViewGui;
 import fr.vicalvez.swingy.view.gui.hero.HeroCreateViewGUI;
 import fr.vicalvez.swingy.view.gui.level.LevelViewGUI;
+import fr.vicalvez.swingy.view.gui.level.VillainFightViewGui;
 import fr.vicalvez.swingy.view.gui.level.VillainMeetViewGUI;
 import fr.vicalvez.swingy.view.gui.start.StartViewGUI;
 
@@ -20,6 +22,7 @@ public class CardLayoutManager extends JFrame  {
 	private HeroCreateViewGUI heroCreateViewGUI;
 	private LevelViewGUI levelViewGUI;
 	private VillainMeetViewGUI villainMeetViewGUI;
+	private VillainFightViewGui villainFightViewGui;
 
 	private final HashMap<ViewType, JPanel>  panels = new HashMap<>();
 
@@ -52,6 +55,8 @@ public class CardLayoutManager extends JFrame  {
 		heroCreateViewGUI = new HeroCreateViewGUI();
 		villainMeetViewGUI = new VillainMeetViewGUI();
 		levelViewGUI = new LevelViewGUI();
+		villainFightViewGui = new VillainFightViewGui();
+		DeathViewGui deathViewGui = new DeathViewGui();
 
 		contentPane.setLayout(this.cardLayout);
 
@@ -59,6 +64,8 @@ public class CardLayoutManager extends JFrame  {
 		contentPane.add(ViewType.HERO_CREATE.getGuiPanelName(), heroCreateViewGUI.createHeroTypeView(gameController));
 		contentPane.add(ViewType.HERO_NAME.getGuiPanelName(), heroCreateViewGUI.createHeroNameView(gameController));
 		contentPane.add(ViewType.MEET_VILLAIN.getGuiPanelName(), villainMeetViewGUI.createVillainMeetView(gameController));
+		contentPane.add(ViewType.FIGHT_VILLAIN.getGuiPanelName(), villainFightViewGui.createVillainFightView(gameController));
+		contentPane.add(ViewType.DEATH.getGuiPanelName(), deathViewGui.createDeathPanel(gameController));
 
 		JPanel levelPanel = levelViewGUI.createLevelView(gameController);
 		panels.put(ViewType.GAME_LEVEL, levelPanel);
@@ -78,5 +85,9 @@ public class CardLayoutManager extends JFrame  {
 
 	public LevelViewGUI getLevelViewGUI() {
 		return levelViewGUI;
+	}
+
+	public VillainFightViewGui getVillainFightViewGui() {
+		return villainFightViewGui;
 	}
 }

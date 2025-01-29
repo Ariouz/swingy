@@ -27,6 +27,7 @@ public class GameController {
 	}
 
 	public void openView(ViewType viewType) {
+		if (viewType == ViewType.EXIT_GAME) System.exit(0);
 		if (this.mode == RunMode.GUI) {
 			this.cardLayoutManager.showView(viewType.getGuiPanelName());
 			return ;

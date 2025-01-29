@@ -15,7 +15,7 @@ public class VillainBuilder {
 		int defense = (int) (heroStats.getAttribute(HeroAttribute.DEFENSE) * multiplier + new Random().nextInt(-5, 5));
 		int hp = (int) (heroStats.getAttribute(HeroAttribute.HIT_POINTS) * multiplier + new Random().nextInt(-5, 5));
 
-		return new Villain().setAttack(attack).setDefense(defense).setHP(hp).setLocation(location);
+		return new Villain().setAttack(Math.max(attack, 1)).setDefense(Math.max(defense, 1)).setHP(Math.max(hp, 1)).setLocation(location);
 	}
 
 }

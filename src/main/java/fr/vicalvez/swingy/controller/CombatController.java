@@ -8,8 +8,12 @@ import fr.vicalvez.swingy.model.villains.Villain;
 import fr.vicalvez.swingy.validators.ValidationUtil;
 import fr.vicalvez.swingy.validators.wrapper.CombatActionWrapper;
 import fr.vicalvez.swingy.view.ViewType;
+import fr.vicalvez.swingy.view.gui.level.VillainFightViewGui;
 
+import javax.swing.*;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 public class CombatController {
 
@@ -19,19 +23,17 @@ public class CombatController {
 		this.gameController = gameController;
 	}
 
-	// true if hero wins, otherwise false
-	public boolean simulateCombat() {
+	public boolean simulateCombat(JTextArea combatLogArea, RunMode runMode) throws InterruptedException {
 		Hero hero = gameController.getHeroController().getHero();
 		Location heroLoc = hero.getLocation();
 		Villain villain = gameController.getLevelController().getMapController().getMap().getVillainAt(heroLoc);
 
-		System.out.println("Combat is processing");
+		printCombatLog(combatLogArea, runMode, "Combat is processing");
 
 		int heroHP = hero.getStats().getAttribute(HeroAttribute.HIT_POINTS);
 		int villainHP = villain.getHitPoints();
 
 		Random random = new Random();
-		// 10% chance to dealt more damages
 		double chanceForHeroToHit = 0.1;
 
 		int heroAttack = hero.getStats().getAttribute(HeroAttribute.ATTACK);
@@ -41,28 +43,31 @@ public class CombatController {
 		int villainDefense = villain.getDefense();
 
 		while (heroHP > 0 && villainHP > 0) {
-			int heroDamage = heroAttack - (int) (0.6 * villainDefense);
+			int heroDamage = Math.max(heroAttack - (int) (0.6 * villainDefense) - 1, 1);
 
-			// Hero attack bonus chance
 			if (random.nextDouble() < chanceForHeroToHit) {
 				heroDamage += random.nextInt(5);
 			}
 
 			villainHP -= heroDamage;
-			System.out.println("Le héros attaque, infligeant " + heroDamage + " dégâts. " + villainHP + " HP restants pour le vilain.");
+			printCombatLog(combatLogArea, runMode, "Le héros attaque, infligeant " + heroDamage + " dégâts. " + Math.max(0, villainHP) + " HP restants pour le vilain.");
 
 			if (villainHP <= 0) {
-				System.out.println("Le vilain est vaincu !");
+				printCombatLog(combatLogArea, runMode, "Le vilain est vaincu !");
+				double xp = calculateVillainXP(villain);
+				printCombatLog(combatLogArea, runMode, "Le hero gagne " + xp + " xp");
+				if (hero.getLevel().addExperience(xp))
+					printCombatLog(combatLogArea, runMode, "Le hero monte au niveau " + hero.getLevel().getLevel() + " !");
 				return true;
 			}
 
-			int villainDamage = villainAttack - (int) (0.6 * heroDefense);
+			int villainDamage = Math.max(villainAttack - (int) (0.6 * heroDefense) - 1, 1);
 
 			heroHP -= villainDamage;
-			System.out.println("Le vilain attaque, infligeant " + villainDamage + " dégâts. " + heroHP + " HP restants pour le héros.");
+			printCombatLog(combatLogArea, runMode, "Le vilain attaque, infligeant " + villainDamage + " dégâts. " + Math.max(0, heroHP) + " HP restants pour le héros.");
 
 			if (heroHP <= 0) {
-				System.out.println("Le héros est vaincu !");
+				printCombatLog(combatLogArea, runMode, "Le héros est vaincu !");
 				return false;
 			}
 		}
@@ -74,7 +79,22 @@ public class CombatController {
 		int villainDefense = villain.getDefense();
 		int villainHP = villain.getHitPoints();
 
-		return (villainAttack * 1.2) * (villainDefense * 0.8) + (villainHP * 5);
+		return (double) Math.round(((villainAttack * 1.2) * (villainDefense * 0.8) + (villainHP * 5)) * 100) / 100;
+	}
+
+	public void printCombatLog(JTextArea area, RunMode runMode, String text) throws InterruptedException {
+		if (runMode == RunMode.CONSOLE) System.out.println(text);
+		else {
+			area.append("\n"+text);
+			System.out.println("DEBUG - "+text);
+			SwingUtilities.invokeLater(() -> {
+				area.setCaretPosition(area.getDocument().getLength());
+				area.repaint();
+				area.revalidate();
+			});
+			TimeUnit.MILLISECONDS.sleep(500);
+
+		}
 	}
 
 	public boolean isValidFightAction(String action)
@@ -92,14 +112,14 @@ public class CombatController {
 	public void processAction(CombatAction combatAction)
 	{
 		if (combatAction == CombatAction.FIGHT){
-			this.simulateCombat();
+			this.startFight();
 			return;
 		}
 
 		int rand = new Random().nextInt(2);
 		if (rand == 0){
 			System.out.println("You fell on a rock while running, you got to fight!");
-			this.simulateCombat();
+			this.startFight();
 			return;
 		}
 
@@ -108,4 +128,39 @@ public class CombatController {
 		gameController.openView(ViewType.GAME_LEVEL);
 	}
 
+	public void startFight()
+	{
+		gameController.openView(ViewType.FIGHT_VILLAIN);
+		VillainFightViewGui fightViewGui = gameController.getCardLayoutManager().getVillainFightViewGui();
+		fightViewGui.updateView(gameController);
+		JTextArea combatLogArea = fightViewGui.getCombatLog();
+
+
+		SwingWorker<Boolean, Void> worker = new SwingWorker<>() {
+			@Override
+			protected Boolean doInBackground() throws Exception {
+				TimeUnit.MILLISECONDS.sleep(500);
+				return simulateCombat(combatLogArea, gameController.getMode());
+			}
+
+			@Override
+			protected void done()
+			{
+				try {
+					boolean won = get();
+					TimeUnit.SECONDS.sleep(5);
+					if (won) gameController.openView(ViewType.GAME_LEVEL);
+					else {
+						gameController.getLevelController().getMapController().getMap().getVillains().clear();
+						if (gameController.getMode() == RunMode.CONSOLE) gameController.openView(ViewType.START);
+						else gameController.openView(ViewType.DEATH);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+		};
+		worker.execute();
+	}
 }

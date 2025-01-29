@@ -37,19 +37,21 @@ public class LevelViewGUI {
 		mapDisplay.setPreferredSize(new Dimension(450, panel.getHeight()));
 		panel.add(mapDisplay, BorderLayout.EAST);
 
+
+
 		levelPanel = panel;
 		return panel;
 	}
 
-
-
 	public JPanel createHeroInfoPanel(Hero hero)
 	{
 		JPanel parent = new JPanel(new FlowLayout());
+		parent.setLayout(new BoxLayout(parent, BoxLayout.Y_AXIS));
+		parent.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(6, 2, 5, 5));
-		panel.setPreferredSize(new Dimension(150, 150));
+		panel.setPreferredSize(new Dimension(200, 150));
 
 		if (hero == null || hero.getType() == null) return panel;
 
@@ -85,6 +87,11 @@ public class LevelViewGUI {
 		panel.add(heroLevel);
 
 		parent.add(panel);
+
+		JButton exit = new JButton("Save and exit");
+		exit.setPreferredSize(new Dimension(150, 30));
+		GUIStyle.styleButton(exit, ButtonColor.GRAY, 14);
+		parent.add(exit);
 		return parent;
 	}
 
@@ -107,7 +114,6 @@ public class LevelViewGUI {
 		mapText.getCaret().setVisible(false);
 
 		StyledDocument styledDocument = mapText.getStyledDocument();
-
 		mapStyledDoc = styledDocument;
 		updateMapToTextPane(mapController.getMap(), hero);
 

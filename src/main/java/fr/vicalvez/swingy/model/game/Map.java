@@ -91,4 +91,8 @@ public class Map {
 	public Hero getHero() {
 		return hero;
 	}
+
+	public HashMap<Location, Villain> getVillains() {
+		return villains;
+	}
 }
