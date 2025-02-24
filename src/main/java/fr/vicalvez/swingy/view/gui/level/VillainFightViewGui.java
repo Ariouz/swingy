@@ -37,9 +37,6 @@ public class VillainFightViewGui {
 	{
 		panel.remove(infoPanel);
 
-		Hero hero = gameController.getHeroController().getHero();
-		Villain villain = gameController.getLevelController().getMapController().getMap().getVillainAt(hero.getLocation());
-
 		infoPanel = new JPanel();
 		infoPanel.setLayout(new BorderLayout());
 		infoPanel.setPreferredSize(new Dimension(600, 500));

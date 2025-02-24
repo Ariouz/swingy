@@ -93,7 +93,6 @@ public class CombatController {
 				area.revalidate();
 			});
 			TimeUnit.MILLISECONDS.sleep(500);
-
 		}
 	}
 
@@ -112,28 +111,37 @@ public class CombatController {
 	public void processAction(CombatAction combatAction)
 	{
 		if (combatAction == CombatAction.FIGHT){
-			this.startFight();
+			this.startFight(false);
 			return;
 		}
 
 		int rand = new Random().nextInt(2);
 		if (rand == 0){
-			System.out.println("You fell on a rock while running, you got to fight!");
-			this.startFight();
-			return;
+			this.startFight(true);
+		} else {
+			Hero hero = gameController.getHeroController().getHero();
+			gameController.getLevelController().getMapController().go(hero.getLastMove(), true);
+			gameController.openView(ViewType.GAME_LEVEL);
 		}
-
-		Hero hero = gameController.getHeroController().getHero();
-		gameController.getLevelController().getMapController().go(hero.getLastMove(), true);
-		gameController.openView(ViewType.GAME_LEVEL);
 	}
 
-	public void startFight()
+	public void startFight(boolean fellOnARock)
 	{
 		gameController.openView(ViewType.FIGHT_VILLAIN);
 		VillainFightViewGui fightViewGui = gameController.getCardLayoutManager().getVillainFightViewGui();
 		fightViewGui.updateView(gameController);
 		JTextArea combatLogArea = fightViewGui.getCombatLog();
+
+		try {
+			if (fellOnARock)
+				printCombatLog(combatLogArea, gameController.getMode(), "You fell on a rock while running, you got to fight!");
+		} catch (InterruptedException e) { e.printStackTrace(); }
+
+		Villain villain = gameController
+				.getLevelController().
+				getMapController().
+				getMap()
+				.getVillainAt(gameController.getHeroController().getHero().getLocation());
 
 
 		SwingWorker<Boolean, Void> worker = new SwingWorker<>() {
@@ -148,19 +156,24 @@ public class CombatController {
 			{
 				try {
 					boolean won = get();
-					TimeUnit.SECONDS.sleep(5);
-					if (won) gameController.openView(ViewType.GAME_LEVEL);
+					TimeUnit.SECONDS.sleep(3);
+					if (won) {
+						gameController.getLevelController().getMapController().getMap().getVillains().remove(villain.getLocation());
+						gameController.openView(ViewType.GAME_LEVEL);
+					}
 					else {
 						gameController.getLevelController().getMapController().getMap().getVillains().clear();
 						if (gameController.getMode() == RunMode.CONSOLE) gameController.openView(ViewType.START);
 						else gameController.openView(ViewType.DEATH);
 					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
+				} catch (Exception e) { e.printStackTrace(); }
 			}
 		};
 		worker.execute();
+		while (!worker.isDone()) {
+			try { TimeUnit.SECONDS.sleep(1); }
+			catch (InterruptedException e) { throw new RuntimeException(e); }
+		}
+
 	}
 }

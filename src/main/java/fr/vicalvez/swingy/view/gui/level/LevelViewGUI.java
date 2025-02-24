@@ -22,10 +22,13 @@ public class LevelViewGUI {
 
 	public JPanel createLevelView(GameController gameController)
 	{
+
+
 		Hero hero = gameController.getHeroController().getHero();
 		MapController mapController = gameController.getLevelController().getMapController();
 
 		JPanel panel = new JPanel(new BorderLayout());
+
 
 		JPanel heroInfo = createHeroInfoPanel(hero);
 		heroInfo.setPreferredSize(new Dimension(150, panel.getHeight()));
@@ -37,9 +40,8 @@ public class LevelViewGUI {
 		mapDisplay.setPreferredSize(new Dimension(450, panel.getHeight()));
 		panel.add(mapDisplay, BorderLayout.EAST);
 
-
-
 		levelPanel = panel;
+
 		return panel;
 	}
 

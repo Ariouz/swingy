@@ -29,6 +29,8 @@ public class LevelController {
 		if (!mapController.isOnBorder(gameController.getHeroController().getHero().getLocation()))
 			return false;
 		System.out.println("Congrats, you win!");
+
+		//todo win screen with play again (hero selection) or quit
 		return true;
 	}
 

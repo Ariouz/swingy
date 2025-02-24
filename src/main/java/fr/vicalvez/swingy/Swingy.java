@@ -13,7 +13,7 @@ public class Swingy {
 		logger.setLevel(Level.OFF);
 
 		// todo parse mode
-		GameController gameController = new GameController(RunMode.GUI);
+		GameController gameController = new GameController(RunMode.CONSOLE);
 
 		gameController.openView(ViewType.START);
 	}

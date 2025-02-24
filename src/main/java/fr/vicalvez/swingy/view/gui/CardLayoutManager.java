@@ -1,6 +1,8 @@
 package fr.vicalvez.swingy.view.gui;
 
 import fr.vicalvez.swingy.controller.GameController;
+import fr.vicalvez.swingy.model.hero.Hero;
+import fr.vicalvez.swingy.model.villains.Villain;
 import fr.vicalvez.swingy.view.ViewType;
 import fr.vicalvez.swingy.view.gui.hero.DeathViewGui;
 import fr.vicalvez.swingy.view.gui.hero.HeroCreateViewGUI;
@@ -74,7 +76,15 @@ public class CardLayoutManager extends JFrame  {
 
 	public void updateLevelView()
 	{
-		levelViewGUI.updateHeroInfoPanel(gameController.getHeroController().getHero());
+		Hero hero = gameController.getHeroController().getHero();
+		Villain tileVillain = gameController.getLevelController().getMapController().getMap().getVillainAt(hero.getLocation());
+
+		if (gameController.getLevelController().checkLevelWin() && tileVillain != null) {
+			// todo win
+//			return;
+		}
+
+		levelViewGUI.updateHeroInfoPanel(hero);
 		levelViewGUI.updateMapToTextPane(gameController.getLevelController().getMapController().getMap(), gameController.getHeroController().getHero());
 	}
 
