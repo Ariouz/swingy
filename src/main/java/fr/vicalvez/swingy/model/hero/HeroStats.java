@@ -37,4 +37,9 @@ public class HeroStats {
 		return this.attributes.get(attribute);
 	}
 
+	public void upgradeAttribute(HeroAttribute attribute, int amount)
+	{
+		this.attributes.replace(attribute, this.attributes.get(attribute) + amount);
+	}
+
 }

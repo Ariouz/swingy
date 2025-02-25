@@ -1,6 +1,8 @@
 package fr.vicalvez.swingy.controller;
 
 import fr.vicalvez.swingy.model.Location;
+import fr.vicalvez.swingy.model.artifact.Artifact;
+import fr.vicalvez.swingy.model.artifact.ArtifactFactory;
 import fr.vicalvez.swingy.model.hero.Hero;
 import fr.vicalvez.swingy.model.hero.HeroAttribute;
 import fr.vicalvez.swingy.model.villains.CombatAction;
@@ -12,7 +14,6 @@ import fr.vicalvez.swingy.view.gui.level.VillainFightViewGui;
 
 import javax.swing.*;
 import java.util.Random;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 public class CombatController {
@@ -58,6 +59,10 @@ public class CombatController {
 				printCombatLog(combatLogArea, runMode, "Le hero gagne " + xp + " xp");
 				if (hero.getLevel().addExperience(xp))
 					printCombatLog(combatLogArea, runMode, "Le hero monte au niveau " + hero.getLevel().getLevel() + " !");
+
+				Artifact artifact = ArtifactFactory.getInstance().createArtifact(hero.getLevel().getLevel());
+				hero.getStats().upgradeAttribute(artifact.getTargetAttribute(), artifact.getAttributeIncrease());
+				printCombatLog(combatLogArea, runMode, "Le villain a drop un artifact " + artifact.getType().getName() + ", le hero gagne " + artifact.getAttributeIncrease() + " " + artifact.getType().getName());
 				return true;
 			}
 
@@ -93,6 +98,7 @@ public class CombatController {
 				area.revalidate();
 			});
 			TimeUnit.MILLISECONDS.sleep(500);
+
 		}
 	}
 
@@ -144,6 +150,14 @@ public class CombatController {
 				.getVillainAt(gameController.getHeroController().getHero().getLocation());
 
 
+		SwingWorker<Boolean, Void> worker = startCombatSwingWorker(combatLogArea, villain);
+		while (!worker.isDone()) {
+			try { TimeUnit.SECONDS.sleep(1); }
+			catch (InterruptedException e) { throw new RuntimeException(e); }
+		}
+	}
+
+	private SwingWorker<Boolean, Void> startCombatSwingWorker(JTextArea combatLogArea, Villain villain) {
 		SwingWorker<Boolean, Void> worker = new SwingWorker<>() {
 			@Override
 			protected Boolean doInBackground() throws Exception {
@@ -170,10 +184,6 @@ public class CombatController {
 			}
 		};
 		worker.execute();
-		while (!worker.isDone()) {
-			try { TimeUnit.SECONDS.sleep(1); }
-			catch (InterruptedException e) { throw new RuntimeException(e); }
-		}
-
+		return worker;
 	}
 }
