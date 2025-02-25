@@ -98,7 +98,6 @@ public class CombatController {
 				area.revalidate();
 			});
 			TimeUnit.MILLISECONDS.sleep(500);
-
 		}
 	}
 
@@ -107,10 +106,13 @@ public class CombatController {
 		CombatActionWrapper wrapper = new CombatActionWrapper(action);
 		if (ValidationUtil.isInvalid(wrapper))
 		{
-			ValidationUtil.printValidationError(wrapper, null, gameController.getMode());
+			if (action.equals("SWITCH"))
+				gameController.setMode(gameController.getMode() == RunMode.GUI ? RunMode.CONSOLE : RunMode.GUI);
+			else {
+				ValidationUtil.printValidationError(wrapper, null, gameController.getMode());
+			}
 			return false;
 		}
-
 		return true;
 	}
 
@@ -150,14 +152,10 @@ public class CombatController {
 				.getVillainAt(gameController.getHeroController().getHero().getLocation());
 
 
-		SwingWorker<Boolean, Void> worker = startCombatSwingWorker(combatLogArea, villain);
-		while (!worker.isDone()) {
-			try { TimeUnit.SECONDS.sleep(1); }
-			catch (InterruptedException e) { throw new RuntimeException(e); }
-		}
+		startCombatSwingWorker(combatLogArea, villain);
 	}
 
-	private SwingWorker<Boolean, Void> startCombatSwingWorker(JTextArea combatLogArea, Villain villain) {
+	private void startCombatSwingWorker(JTextArea combatLogArea, Villain villain) {
 		SwingWorker<Boolean, Void> worker = new SwingWorker<>() {
 			@Override
 			protected Boolean doInBackground() throws Exception {
@@ -183,7 +181,7 @@ public class CombatController {
 				} catch (Exception e) { e.printStackTrace(); }
 			}
 		};
+
 		worker.execute();
-		return worker;
 	}
 }

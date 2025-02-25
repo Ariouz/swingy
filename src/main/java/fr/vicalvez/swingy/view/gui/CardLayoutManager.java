@@ -81,7 +81,7 @@ public class CardLayoutManager extends JFrame  {
 
 		if (gameController.getLevelController().checkLevelWin() && tileVillain != null) {
 			// todo win
-//			return;
+			// return;
 		}
 
 		levelViewGUI.updateHeroInfoPanel(hero);

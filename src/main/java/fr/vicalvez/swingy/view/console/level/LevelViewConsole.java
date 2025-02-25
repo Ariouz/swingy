@@ -36,6 +36,8 @@ public class LevelViewConsole extends ConsoleView {
 				.filter(type -> type != Direction.NONE)
 				.forEach(type -> System.out.println("- " + type)) ;
 
+		System.out.println("- SWITCH To open the game in GUI mode");
+
 		String directionStr = scanner.nextLine();
 		if (!gameController.getLevelController().getMapController().goTo(directionStr))
 		{

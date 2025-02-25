@@ -31,7 +31,11 @@ public class MapController {
 
 		if (ValidationUtil.isInvalid(directionWrapper))
 		{
-			ValidationUtil.printValidationError(directionWrapper, null, gameController.getMode());
+			if (directionStr.equals("SWITCH"))
+				gameController.setMode(gameController.getMode() == RunMode.GUI ? RunMode.CONSOLE : RunMode.GUI);
+			else {
+				ValidationUtil.printValidationError(directionWrapper, null, gameController.getMode());
+			}
 			return false;
 		}
 

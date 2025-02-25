@@ -11,7 +11,11 @@ public class StartController {
 	{
 		StartActionWrapper wrapper = new StartActionWrapper(action);
 		if (ValidationUtil.isInvalid(wrapper)){
-			ValidationUtil.printValidationError(wrapper, null, gameController.getMode());
+			if (action.equals("SWITCH"))
+				gameController.setMode(gameController.getMode() == RunMode.GUI ? RunMode.CONSOLE : RunMode.GUI);
+			else {
+				ValidationUtil.printValidationError(wrapper, null, gameController.getMode());
+			}
 			return false;
 		}
 

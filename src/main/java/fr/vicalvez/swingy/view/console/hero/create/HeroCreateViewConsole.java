@@ -30,6 +30,7 @@ public class HeroCreateViewConsole extends ConsoleView {
 					+ "; Defense: " + type.getDefaultDefense()
 					+ "; HP: " + type.getDefaultHP());
 		});
+		System.out.println("- SWITCH To open the game in GUI mode");
 
 		String typeStr = scanner.nextLine();
 		if (!gameController.getHeroController().createHero(typeStr)) {

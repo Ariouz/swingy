@@ -20,14 +20,16 @@ public class HeroController {
 		this.gameController.getLevelController().getMapController().getMap().setHero(this.hero);
 	}
 
-	public boolean createHero(String typeStr)
-	{
+	public boolean createHero(String typeStr) {
 		HeroType heroType = HeroType.getByName(typeStr);
 		Hero hero = new Hero(heroType);
 
-		if (ValidationUtil.isInvalid(hero))
-		{
-			ValidationUtil.printValidationError(hero, null, gameController.getMode());
+		if (ValidationUtil.isInvalid(hero)) {
+			if (typeStr.equals("SWITCH"))
+				gameController.setMode(gameController.getMode() == RunMode.GUI ? RunMode.CONSOLE : RunMode.GUI);
+			else {
+				ValidationUtil.printValidationError(hero, null, gameController.getMode());
+			}
 			return false;
 		}
 

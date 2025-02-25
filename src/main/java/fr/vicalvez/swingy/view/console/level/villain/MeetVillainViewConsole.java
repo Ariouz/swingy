@@ -30,6 +30,8 @@ public class MeetVillainViewConsole extends ConsoleView {
 		System.out.println("You have met a villain, what will you do ?");
 		Arrays.stream(CombatAction.values()).forEach(action -> System.out.println("- " + action));
 
+		System.out.println("- SWITCH To open the game in GUI mode");
+
 		String action = scanner.nextLine();
 		if (!gameController.getCombatController().isValidFightAction(action)){
 			gameController.openView(ViewType.MEET_VILLAIN);

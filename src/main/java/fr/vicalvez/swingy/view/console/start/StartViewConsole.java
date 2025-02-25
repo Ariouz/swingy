@@ -15,6 +15,7 @@ public class StartViewConsole extends ConsoleView {
 		System.out.println("Type:");
 		System.out.println("- CREATE To create a new Hero");
 		System.out.println("- SELECT To select a previous Hero");
+		System.out.println("- SWITCH To open the game in GUI mode");
 
 		Scanner scanner = new Scanner(System.in);
 		String action = scanner.nextLine();
