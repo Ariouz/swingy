@@ -2,6 +2,7 @@ package fr.vicalvez.swingy.controller;
 
 import fr.vicalvez.swingy.model.game.Map;
 import fr.vicalvez.swingy.model.hero.Hero;
+import fr.vicalvez.swingy.view.ViewType;
 
 public class LevelController {
 
@@ -26,12 +27,12 @@ public class LevelController {
 
 	public boolean checkLevelWin()
 	{
-		if (!mapController.isOnBorder(gameController.getHeroController().getHero().getLocation()))
-			return false;
-		System.out.println("Congrats, you win!");
+        return mapController.isOnBorder(gameController.getHeroController().getHero().getLocation());
+    }
 
-		//todo win screen with play again (hero selection) or quit
-		return true;
+	public void win()
+	{
+		gameController.openView(ViewType.WIN);
 	}
 
 	public MapController getMapController() {

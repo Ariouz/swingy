@@ -10,6 +10,8 @@ import java.io.File;
 
 public class Hero {
 
+	private int id = -1;
+
 	@NotNull(message = "Invalid hero type")
 	private HeroType type;
 
@@ -26,13 +28,13 @@ public class Hero {
 		this.type = type;
 	}
 
-	public Hero(String name, File saveFile)
+	public Hero(int id, String name)
 	{
+		this.id = id;
 		this.name = name;
 		this.level = new HeroLevel(name); // todo load
 		this.stats = new HeroStats(name); // todo load
 		this.location = new Location(0, 0);
-		// todo load type
 	}
 
 	public void loadDefaults()
@@ -44,6 +46,10 @@ public class Hero {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public void setType(HeroType type) {
+		this.type = type;
 	}
 
 	public HeroType getType() {
@@ -70,6 +76,9 @@ public class Hero {
 		return lastMove;
 	}
 
+	public int getId() {
+		return id;
+	}
 	public void setLastMove(Direction lastMove) {
 		this.lastMove = lastMove;
 	}

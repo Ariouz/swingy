@@ -60,9 +60,13 @@ public class CombatController {
 				if (hero.getLevel().addExperience(xp))
 					printCombatLog(combatLogArea, runMode, "Le hero monte au niveau " + hero.getLevel().getLevel() + " !");
 
-				Artifact artifact = ArtifactFactory.getInstance().createArtifact(hero.getLevel().getLevel());
-				hero.getStats().upgradeAttribute(artifact.getTargetAttribute(), artifact.getAttributeIncrease());
-				printCombatLog(combatLogArea, runMode, "Le villain a drop un artifact " + artifact.getType().getName() + ", le hero gagne " + artifact.getAttributeIncrease() + " " + artifact.getType().getName());
+
+				int rand = new Random().nextInt(2);
+				if (rand == 0) {
+					Artifact artifact = ArtifactFactory.getInstance().createArtifact((int) xp / 10);
+					hero.getStats().upgradeAttribute(artifact.getTargetAttribute(), artifact.getAttributeIncrease());
+					printCombatLog(combatLogArea, runMode, "Le villain a drop un artifact " + artifact.getType().getName() + ", le hero gagne " + artifact.getAttributeIncrease() + " " + artifact.getType().getName());
+				}
 				return true;
 			}
 

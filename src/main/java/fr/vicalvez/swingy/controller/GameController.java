@@ -1,5 +1,7 @@
 package fr.vicalvez.swingy.controller;
 
+import fr.vicalvez.swingy.model.villains.Villain;
+import fr.vicalvez.swingy.sql.SQLManager;
 import fr.vicalvez.swingy.view.GameView;
 import fr.vicalvez.swingy.view.ViewType;
 import fr.vicalvez.swingy.view.gui.CardLayoutManager;
@@ -14,9 +16,12 @@ public class GameController {
 	private final CombatController combatController;
 	private final CardLayoutManager cardLayoutManager;
 
+	private final SQLManager sqlManager;
+
 	private RunMode mode;
 
 	public GameController(RunMode mode) {
+		this.sqlManager = new SQLManager();
 		this.heroController = new HeroController(this);
 		this.startController = new StartController();
 		this.levelController = new LevelController(this);
@@ -27,6 +32,15 @@ public class GameController {
 	}
 
 	public void openView(ViewType viewType) {
+
+		if (viewType == ViewType.GAME_LEVEL)
+		{
+			Villain tileVillain = getLevelController().getMapController().getMap().getVillainAt(getHeroController().getHero().getLocation());
+			if (tileVillain == null && getLevelController().checkLevelWin()) {
+				getLevelController().win();
+				return;
+			}
+		}
 		if (viewType == ViewType.EXIT_GAME) System.exit(0);
 		if (this.mode == RunMode.GUI) {
 			this.cardLayoutManager.showView(viewType.getGuiPanelName());
@@ -70,5 +84,9 @@ public class GameController {
 
 	public CardLayoutManager getCardLayoutManager() {
 		return cardLayoutManager;
+	}
+
+	public SQLManager getSqlManager() {
+		return sqlManager;
 	}
 }

@@ -77,12 +77,6 @@ public class CardLayoutManager extends JFrame  {
 	public void updateLevelView()
 	{
 		Hero hero = gameController.getHeroController().getHero();
-		Villain tileVillain = gameController.getLevelController().getMapController().getMap().getVillainAt(hero.getLocation());
-
-		if (gameController.getLevelController().checkLevelWin() && tileVillain != null) {
-			// todo win
-			// return;
-		}
 
 		levelViewGUI.updateHeroInfoPanel(hero);
 		levelViewGUI.updateMapToTextPane(gameController.getLevelController().getMapController().getMap(), gameController.getHeroController().getHero());

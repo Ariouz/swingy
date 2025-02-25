@@ -47,4 +47,11 @@ public class HeroLevel {
 		return false;
 	}
 
+	public void setExperience(double experience) {
+		this.experience = experience;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
 }

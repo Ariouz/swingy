@@ -14,17 +14,6 @@ public class HeroStats {
 		this.loadDefaultAttributes();
 	}
 
-	public HeroStats(String heroName)
-	{
-		this.loadHeroAttributes(heroName);
-	}
-
-	public void loadHeroAttributes(String heroName)
-	{
-		// todo load attributes from file
-		loadDefaultAttributes(); // todo temp
-	}
-
 	public void loadDefaultAttributes()
 	{
 		Arrays.stream(HeroAttribute.values()).forEach(attribute -> {
@@ -40,6 +29,11 @@ public class HeroStats {
 	public void upgradeAttribute(HeroAttribute attribute, int amount)
 	{
 		this.attributes.replace(attribute, this.attributes.get(attribute) + amount);
+	}
+
+	public void setAttribute(HeroAttribute attribute, int amount)
+	{
+		this.attributes.replace(attribute, amount);
 	}
 
 }

@@ -9,6 +9,7 @@ import jakarta.validation.ValidatorFactory;
 import javax.swing.*;
 import java.util.Set;
 
+
 public class ValidationUtil {
 
 	public static <T> boolean isInvalid(T object)
