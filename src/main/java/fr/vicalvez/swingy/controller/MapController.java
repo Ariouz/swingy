@@ -31,8 +31,11 @@ public class MapController {
 
 		if (ValidationUtil.isInvalid(directionWrapper))
 		{
-			if (directionStr.equals("SWITCH"))
+			if (directionStr.equals("SWITCH")){
 				gameController.setMode(gameController.getMode() == RunMode.GUI ? RunMode.CONSOLE : RunMode.GUI);
+				gameController.openView(ViewType.START);
+				gameController.openView(ViewType.GAME_LEVEL);
+			}
 			else {
 				ValidationUtil.printValidationError(directionWrapper, null, gameController.getMode());
 			}
@@ -58,8 +61,6 @@ public class MapController {
 			location.addX(direction.getXOffset());
 			location.addY(direction.getYOffset());
 		}
-
-		System.out.println(location.getX() + " " + location.getY());
 
 		if (map.isVillainAt(location)){
 			gameController.openView(ViewType.MEET_VILLAIN);

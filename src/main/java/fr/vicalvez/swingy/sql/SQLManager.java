@@ -13,7 +13,6 @@ public class SQLManager {
     public SQLManager() {
         try {
             this.connection = DriverManager.getConnection("jdbc:sqlite:heroes.db");
-            System.out.println("Connection established.");
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             System.exit(1);

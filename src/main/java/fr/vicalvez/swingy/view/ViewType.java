@@ -2,7 +2,10 @@ package fr.vicalvez.swingy.view;
 
 import fr.vicalvez.swingy.view.console.ConsoleView;
 import fr.vicalvez.swingy.view.console.hero.create.HeroCreateViewConsole;
+import fr.vicalvez.swingy.view.console.hero.create.HeroNameViewConsole;
+import fr.vicalvez.swingy.view.console.hero.death.DeathViewConsole;
 import fr.vicalvez.swingy.view.console.hero.info.HeroInfoViewConsole;
+import fr.vicalvez.swingy.view.console.hero.select.ConsoleHeroSelectView;
 import fr.vicalvez.swingy.view.console.level.LevelViewConsole;
 import fr.vicalvez.swingy.view.console.level.LevelWinView;
 import fr.vicalvez.swingy.view.console.level.villain.MeetVillainViewConsole;
@@ -16,12 +19,12 @@ public enum ViewType {
 	GAME_LEVEL(LevelViewConsole.class, "levelView"),
 	MEET_VILLAIN(MeetVillainViewConsole.class, "meetVillain"),
 	WIN(LevelWinView.class, "win"),
+	HERO_SELECT(ConsoleHeroSelectView.class, "heroSelect"),
+	HERO_NAME(HeroNameViewConsole.class, "heroCreateName"),
+	DEATH(DeathViewConsole.class, "death"),
 
 	// GUI ONLY,
-	HERO_NAME(null, "heroCreateName"),
-	HERO_SELECT(null, ""),
 	FIGHT_VILLAIN(null, "fightVillain"),
-	DEATH(null, "death"),
 	EXIT_GAME(null, "")
 	;
 

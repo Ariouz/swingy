@@ -1,6 +1,7 @@
 package fr.vicalvez.swingy.controller;
 
 import fr.vicalvez.swingy.model.villains.Villain;
+import fr.vicalvez.swingy.sql.SQLHero;
 import fr.vicalvez.swingy.sql.SQLManager;
 import fr.vicalvez.swingy.view.GameView;
 import fr.vicalvez.swingy.view.ViewType;

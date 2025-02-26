@@ -1,6 +1,7 @@
 package fr.vicalvez.swingy.view.gui.start;
 
 import fr.vicalvez.swingy.controller.GameController;
+import fr.vicalvez.swingy.controller.RunMode;
 import fr.vicalvez.swingy.view.ViewType;
 import fr.vicalvez.swingy.view.gui.style.ButtonColor;
 import fr.vicalvez.swingy.view.gui.style.GUIStyle;

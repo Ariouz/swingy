@@ -51,7 +51,6 @@ public class SQLHero {
             {
 
                 int heroId = rs.getInt(1);
-                System.out.println("Hero id " + heroId);
 
                 HeroStats heroStats = hero.getStats();
                 query = "INSERT INTO " + STATS_TABLE + " (hero_id, attack, defense, helm) VALUES (%s, %s, %s, %s)";

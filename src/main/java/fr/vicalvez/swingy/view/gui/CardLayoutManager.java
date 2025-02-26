@@ -6,9 +6,11 @@ import fr.vicalvez.swingy.model.villains.Villain;
 import fr.vicalvez.swingy.view.ViewType;
 import fr.vicalvez.swingy.view.gui.hero.DeathViewGui;
 import fr.vicalvez.swingy.view.gui.hero.HeroCreateViewGUI;
+import fr.vicalvez.swingy.view.gui.hero.HeroSelectGUI;
 import fr.vicalvez.swingy.view.gui.level.LevelViewGUI;
 import fr.vicalvez.swingy.view.gui.level.VillainFightViewGui;
 import fr.vicalvez.swingy.view.gui.level.VillainMeetViewGUI;
+import fr.vicalvez.swingy.view.gui.level.WinViewGui;
 import fr.vicalvez.swingy.view.gui.start.StartViewGUI;
 
 import javax.swing.*;
@@ -25,6 +27,7 @@ public class CardLayoutManager extends JFrame  {
 	private LevelViewGUI levelViewGUI;
 	private VillainMeetViewGUI villainMeetViewGUI;
 	private VillainFightViewGui villainFightViewGui;
+	private HeroSelectGUI heroSelectGUI;
 
 	private final HashMap<ViewType, JPanel>  panels = new HashMap<>();
 
@@ -48,6 +51,7 @@ public class CardLayoutManager extends JFrame  {
 	{
 		if (viewName.equals(ViewType.GAME_LEVEL.getGuiPanelName())) updateLevelView();
 		if (viewName.equals(ViewType.MEET_VILLAIN.getGuiPanelName())) updateVillainMeetView();
+		if (viewName.equals(ViewType.HERO_SELECT.getGuiPanelName())) updateHeroesListView();
 		this.cardLayout.show(contentPane, viewName);
 	}
 
@@ -59,6 +63,9 @@ public class CardLayoutManager extends JFrame  {
 		levelViewGUI = new LevelViewGUI();
 		villainFightViewGui = new VillainFightViewGui();
 		DeathViewGui deathViewGui = new DeathViewGui();
+		WinViewGui winViewGui = new WinViewGui();
+
+		heroSelectGUI = new HeroSelectGUI();
 
 		contentPane.setLayout(this.cardLayout);
 
@@ -68,6 +75,9 @@ public class CardLayoutManager extends JFrame  {
 		contentPane.add(ViewType.MEET_VILLAIN.getGuiPanelName(), villainMeetViewGUI.createVillainMeetView(gameController));
 		contentPane.add(ViewType.FIGHT_VILLAIN.getGuiPanelName(), villainFightViewGui.createVillainFightView(gameController));
 		contentPane.add(ViewType.DEATH.getGuiPanelName(), deathViewGui.createDeathPanel(gameController));
+		contentPane.add(ViewType.WIN.getGuiPanelName(), winViewGui.createWinPanel(gameController));
+		contentPane.add(ViewType.HERO_SELECT.getGuiPanelName(), heroSelectGUI.createHeroesPanel(gameController));
+
 
 		JPanel levelPanel = levelViewGUI.createLevelView(gameController);
 		panels.put(ViewType.GAME_LEVEL, levelPanel);
@@ -78,7 +88,7 @@ public class CardLayoutManager extends JFrame  {
 	{
 		Hero hero = gameController.getHeroController().getHero();
 
-		levelViewGUI.updateHeroInfoPanel(hero);
+		levelViewGUI.updateHeroInfoPanel(hero, gameController);
 		levelViewGUI.updateMapToTextPane(gameController.getLevelController().getMapController().getMap(), gameController.getHeroController().getHero());
 	}
 
@@ -86,6 +96,8 @@ public class CardLayoutManager extends JFrame  {
 	{
 		villainMeetViewGUI.updateView(gameController);
 	}
+
+	public void updateHeroesListView() {heroSelectGUI.updateList(gameController);}
 
 	public LevelViewGUI getLevelViewGUI() {
 		return levelViewGUI;

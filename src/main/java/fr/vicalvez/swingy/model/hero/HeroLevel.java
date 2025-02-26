@@ -11,13 +11,6 @@ public class HeroLevel {
 		this.experience = 0;
 	}
 
-	public HeroLevel(String name)
-	{
-		this.level = 0;
-		this.experience = 0;
-		// todo load from file
-	}
-
 	public int getLevel() {
 		return level;
 	}

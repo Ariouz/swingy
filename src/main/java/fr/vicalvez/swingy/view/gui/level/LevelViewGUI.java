@@ -2,11 +2,13 @@ package fr.vicalvez.swingy.view.gui.level;
 
 import fr.vicalvez.swingy.controller.GameController;
 import fr.vicalvez.swingy.controller.MapController;
+import fr.vicalvez.swingy.controller.RunMode;
 import fr.vicalvez.swingy.model.Location;
 import fr.vicalvez.swingy.model.game.Direction;
 import fr.vicalvez.swingy.model.game.Map;
 import fr.vicalvez.swingy.model.hero.Hero;
 import fr.vicalvez.swingy.model.hero.HeroAttribute;
+import fr.vicalvez.swingy.view.ViewType;
 import fr.vicalvez.swingy.view.gui.style.ButtonColor;
 import fr.vicalvez.swingy.view.gui.style.GUIStyle;
 
@@ -22,30 +24,27 @@ public class LevelViewGUI {
 
 	public JPanel createLevelView(GameController gameController)
 	{
-
-
 		Hero hero = gameController.getHeroController().getHero();
 		MapController mapController = gameController.getLevelController().getMapController();
 
 		JPanel panel = new JPanel(new BorderLayout());
 
 
-		JPanel heroInfo = createHeroInfoPanel(hero);
+		JPanel heroInfo = createHeroInfoPanel(hero, gameController);
 		heroInfo.setPreferredSize(new Dimension(150, panel.getHeight()));
 
 		heroInfoPanel = heroInfo;
 		panel.add(heroInfo, BorderLayout.WEST);
 
-		JPanel mapDisplay = createMapDisplayPanel(mapController, hero);
+		JPanel mapDisplay = createMapDisplayPanel(mapController, hero, gameController);
 		mapDisplay.setPreferredSize(new Dimension(450, panel.getHeight()));
 		panel.add(mapDisplay, BorderLayout.EAST);
 
 		levelPanel = panel;
-
 		return panel;
 	}
 
-	public JPanel createHeroInfoPanel(Hero hero)
+	public JPanel createHeroInfoPanel(Hero hero, GameController gameController)
 	{
 		JPanel parent = new JPanel(new FlowLayout());
 		parent.setLayout(new BoxLayout(parent, BoxLayout.Y_AXIS));
@@ -90,22 +89,19 @@ public class LevelViewGUI {
 
 		parent.add(panel);
 
-		JButton exit = new JButton("Save and exit");
-		exit.setPreferredSize(new Dimension(150, 30));
-		GUIStyle.styleButton(exit, ButtonColor.GRAY, 14);
-		parent.add(exit);
+
 		return parent;
 	}
 
-	public void updateHeroInfoPanel(Hero hero)
+	public void updateHeroInfoPanel(Hero hero, GameController gameController)
 	{
 		levelPanel.remove(heroInfoPanel);
-		JPanel heroInfo = createHeroInfoPanel(hero);
-		levelPanel.add(heroInfo);
-		heroInfoPanel = heroInfo;
+		JPanel heroInfo = createHeroInfoPanel(hero, gameController);
+		this.levelPanel.add(heroInfo);
+		this.heroInfoPanel = heroInfo;
 	}
 
-	public JPanel createMapDisplayPanel(MapController mapController, Hero hero)
+	public JPanel createMapDisplayPanel(MapController mapController, Hero hero, GameController gameController)
 	{
 		JPanel panel = new JPanel();
 
@@ -126,12 +122,12 @@ public class LevelViewGUI {
 
 		panel.add(scrollPane);
 
-		addMapMovementButtons(panel, mapController);
+		addMapMovementButtons(panel, mapController, gameController);
 
 		return panel;
 	}
 
-	private void addMapMovementButtons(JPanel container, MapController mapController)
+	private void addMapMovementButtons(JPanel container, MapController mapController, GameController gameController)
 	{
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(3, 3));
@@ -163,6 +159,16 @@ public class LevelViewGUI {
 		panel.add(new JLabel());
 
 		container.add(panel);
+
+		JButton switchButton = new JButton("Switch");
+		switchButton.setPreferredSize(new Dimension(70, 20));
+		GUIStyle.styleButton(switchButton, ButtonColor.GRAY, 14);
+		switchButton.addActionListener(event -> {
+			gameController.setMode(RunMode.CONSOLE);
+			gameController.openView(ViewType.GAME_LEVEL);
+		});
+
+		container.add(switchButton);
 	}
 
 	public void setMovementButtonAction(MapController map, JButton button, Direction direction)
@@ -175,7 +181,6 @@ public class LevelViewGUI {
 	public void updateMapToTextPane(Map map, Hero hero) {
 		if (hero == null || hero.getType() == null) return ;
 
-		System.out.println(hero.getLocation().getX() + " " + hero.getLocation().getY());
 		try {
 			mapStyledDoc.remove(0, mapStyledDoc.getLength());
 		} catch (BadLocationException e) {

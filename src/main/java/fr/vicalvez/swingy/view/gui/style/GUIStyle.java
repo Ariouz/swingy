@@ -1,7 +1,11 @@
 package fr.vicalvez.swingy.view.gui.style;
 
+import fr.vicalvez.swingy.sql.SQLHeroEntry;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class GUIStyle {
 
@@ -24,5 +28,6 @@ public class GUIStyle {
 		});
 
 	}
+
 
 }

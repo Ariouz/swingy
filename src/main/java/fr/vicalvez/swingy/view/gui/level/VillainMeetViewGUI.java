@@ -2,10 +2,12 @@ package fr.vicalvez.swingy.view.gui.level;
 
 import fr.vicalvez.swingy.controller.GameController;
 import fr.vicalvez.swingy.controller.MapController;
+import fr.vicalvez.swingy.controller.RunMode;
 import fr.vicalvez.swingy.model.hero.Hero;
 import fr.vicalvez.swingy.model.hero.HeroAttribute;
 import fr.vicalvez.swingy.model.villains.CombatAction;
 import fr.vicalvez.swingy.model.villains.Villain;
+import fr.vicalvez.swingy.view.ViewType;
 import fr.vicalvez.swingy.view.gui.style.ButtonColor;
 import fr.vicalvez.swingy.view.gui.style.GUIStyle;
 
@@ -50,14 +52,25 @@ public class VillainMeetViewGUI {
 		JPanel villainPanel = createVillainPanel(villain);
 
 		JPanel buttonsPanel = new JPanel();
+		buttonsPanel.setLayout(new GridLayout(2, 2, 20, 5));
 		JButton fightButton = new JButton("FIGHT");
 		JButton runButton = new JButton("RUN");
 
 		GUIStyle.styleButton(fightButton, ButtonColor.GREEN, 14);
-		GUIStyle.styleButton(runButton, ButtonColor.GRAY, 14);
+		GUIStyle.styleButton(runButton, ButtonColor.BLUE, 14);
 
 		buttonsPanel.add(fightButton);
 		buttonsPanel.add(runButton);
+
+		JButton switchButton = new JButton("Switch");
+		switchButton.setPreferredSize(new Dimension(70, 20));
+		GUIStyle.styleButton(switchButton, ButtonColor.GRAY, 14);
+		switchButton.addActionListener(event -> {
+			gameController.setMode(RunMode.CONSOLE);
+			gameController.openView(ViewType.GAME_LEVEL);
+		});
+
+		buttonsPanel.add(switchButton);
 
 		setVillainMeetButtonAction(fightButton, CombatAction.FIGHT, gameController);
 		setVillainMeetButtonAction(runButton, CombatAction.RUN, gameController);

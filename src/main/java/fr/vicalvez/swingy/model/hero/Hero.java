@@ -32,8 +32,7 @@ public class Hero {
 	{
 		this.id = id;
 		this.name = name;
-		this.level = new HeroLevel(name); // todo load
-		this.stats = new HeroStats(name); // todo load
+		this.level = new HeroLevel();
 		this.location = new Location(0, 0);
 	}
 
@@ -81,5 +80,9 @@ public class Hero {
 	}
 	public void setLastMove(Direction lastMove) {
 		this.lastMove = lastMove;
+	}
+
+	public void loadStats() {
+		this.stats = new HeroStats(this.type);
 	}
 }

@@ -18,6 +18,8 @@ public class LevelController {
 	public void nextLevel(Hero hero)
 	{
 		this.mapController.getMap().setLocationToCenter(hero.getLocation());
+		this.mapController.getMap().getVillains().clear();
+		this.mapController.getMap().spreadVillains();
 	}
 
 	public void printLevel()
@@ -32,6 +34,7 @@ public class LevelController {
 
 	public void win()
 	{
+		gameController.getHeroController().saveHero();
 		gameController.openView(ViewType.WIN);
 	}
 

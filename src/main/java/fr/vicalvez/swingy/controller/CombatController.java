@@ -57,13 +57,14 @@ public class CombatController {
 				printCombatLog(combatLogArea, runMode, "Le vilain est vaincu !");
 				double xp = calculateVillainXP(villain);
 				printCombatLog(combatLogArea, runMode, "Le hero gagne " + xp + " xp");
-				if (hero.getLevel().addExperience(xp))
+				if (hero.getLevel().addExperience(xp)){
 					printCombatLog(combatLogArea, runMode, "Le hero monte au niveau " + hero.getLevel().getLevel() + " !");
-
+					gameController.getLevelController().nextLevel(gameController.getHeroController().getHero());
+				}
 
 				int rand = new Random().nextInt(2);
 				if (rand == 0) {
-					Artifact artifact = ArtifactFactory.getInstance().createArtifact((int) xp / 10);
+					Artifact artifact = ArtifactFactory.getInstance().createArtifact((int) xp / 20);
 					hero.getStats().upgradeAttribute(artifact.getTargetAttribute(), artifact.getAttributeIncrease());
 					printCombatLog(combatLogArea, runMode, "Le villain a drop un artifact " + artifact.getType().getName() + ", le hero gagne " + artifact.getAttributeIncrease() + " " + artifact.getType().getName());
 				}
@@ -95,7 +96,6 @@ public class CombatController {
 		if (runMode == RunMode.CONSOLE) System.out.println(text);
 		else {
 			area.append("\n"+text);
-			System.out.println("DEBUG - "+text);
 			SwingUtilities.invokeLater(() -> {
 				area.setCaretPosition(area.getDocument().getLength());
 				area.repaint();

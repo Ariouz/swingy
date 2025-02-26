@@ -1,6 +1,7 @@
 package fr.vicalvez.swingy.view.gui.hero;
 
 import fr.vicalvez.swingy.controller.GameController;
+import fr.vicalvez.swingy.controller.RunMode;
 import fr.vicalvez.swingy.model.hero.HeroType;
 import fr.vicalvez.swingy.view.ViewType;
 import fr.vicalvez.swingy.view.gui.style.ButtonColor;
@@ -30,6 +31,12 @@ public class HeroCreateViewGUI {
 		GUIStyle.styleButton(backButton, ButtonColor.GRAY, 14);
 		backButton.addActionListener(event -> gameController.getCardLayoutManager().showView(ViewType.START.getGuiPanelName()));
 		buttonPanel.add(backButton);
+
+		JButton switchButton = new JButton("Switch");
+		switchButton.setPreferredSize(new Dimension(70, 20));
+		GUIStyle.styleButton(switchButton, ButtonColor.GRAY, 14);
+		switchButton.addActionListener(event -> {gameController.setMode(RunMode.CONSOLE); gameController.openView(ViewType.HERO_CREATE);});
+		buttonPanel.add(switchButton);
 
 		topSection.add(titleLabel, BorderLayout.CENTER);
 		topSection.add(buttonPanel, BorderLayout.EAST);
@@ -95,6 +102,12 @@ public class HeroCreateViewGUI {
 		backButton.addActionListener(event -> gameController.getCardLayoutManager().showView(ViewType.HERO_CREATE.getGuiPanelName()));
 		buttonPanel.add(backButton);
 
+		JButton switchButton = new JButton("Switch");
+		switchButton.setPreferredSize(new Dimension(70, 20));
+		GUIStyle.styleButton(switchButton, ButtonColor.GRAY, 14);
+		switchButton.addActionListener(event -> {gameController.setMode(RunMode.CONSOLE); gameController.openView(ViewType.HERO_NAME);});
+		buttonPanel.add(switchButton);
+
 		topSection.add(titleLabel, BorderLayout.CENTER);
 		topSection.add(buttonPanel, BorderLayout.EAST);
 		panel.add(topSection);
@@ -128,7 +141,6 @@ public class HeroCreateViewGUI {
 	{
 		button.addActionListener(event -> {
 			if (!gameController.getHeroController().setHeroName(input.getText(), errorLabel)) return ;
-			System.out.println("Next view, name: " + input.getText() + " type: " + gameController.getHeroController().getHero().getType());
 			gameController.openView(ViewType.GAME_LEVEL);
 		});
 	}

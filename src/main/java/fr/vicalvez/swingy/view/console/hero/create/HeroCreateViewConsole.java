@@ -16,10 +16,7 @@ public class HeroCreateViewConsole extends ConsoleView {
 
 		if (!selectHeroType(scanner, gameController)) return ;
 
-		askHeroName(scanner, gameController);
-
-		gameController.openView(ViewType.HERO_DETAILS);
-		gameController.openView(ViewType.GAME_LEVEL);
+		gameController.openView(ViewType.HERO_NAME);
 	}
 
 	private boolean selectHeroType(Scanner scanner, GameController gameController) {
@@ -38,16 +35,6 @@ public class HeroCreateViewConsole extends ConsoleView {
 			return false;
 		}
 		return true;
-	}
-
-	private void askHeroName(Scanner scanner, GameController gameController) {
-		System.out.println("Enter hero name:");
-		String heroName = scanner.nextLine();
-
-		while (!gameController.getHeroController().setHeroName(heroName, null)) {
-			System.out.println("Enter hero name:");
-			heroName = scanner.nextLine();
-		}
 	}
 
 }

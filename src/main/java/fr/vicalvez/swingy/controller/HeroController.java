@@ -24,14 +24,16 @@ public class HeroController {
 		if (sqlHero == null) {return ;}
 
 		this.hero = new Hero(sqlHero.getId(), sqlHero.getName());
-		hero.setType(sqlHero.getType());
-		hero.getStats().setAttribute(HeroAttribute.ATTACK, sqlHero.getAttack());
-		hero.getStats().setAttribute(HeroAttribute.DEFENSE, sqlHero.getDefense());
-		hero.getStats().setAttribute(HeroAttribute.HIT_POINTS, sqlHero.getHelm());
-		hero.getLevel().setExperience(sqlHero.getExperience());
-		hero.getLevel().setLevel(sqlHero.getLevel());
+		this.hero.setType(sqlHero.getType());
+		this.hero.loadStats();
+		this.hero.getStats().setAttribute(HeroAttribute.ATTACK, sqlHero.getAttack());
+		this.hero.getStats().setAttribute(HeroAttribute.DEFENSE, sqlHero.getDefense());
+		this.hero.getStats().setAttribute(HeroAttribute.HIT_POINTS, sqlHero.getHelm());
+		this.hero.getLevel().setExperience(sqlHero.getExperience());
+		this.hero.getLevel().setLevel(sqlHero.getLevel());
 
-		this.gameController.getLevelController().getMapController().getMap().setHero(this.hero);
+		this.gameController.getLevelController().getMapController().generate(this.hero);
+		this.gameController.getLevelController().getMapController().getMap().setLocationToCenter(this.hero.getLocation());
 	}
 
 	public boolean createHero(String typeStr) {
@@ -66,6 +68,18 @@ public class HeroController {
 		}
 		gameController.getLevelController().nextLevel(gameController.getHeroController().getHero());
 		return true;
+	}
+
+	public void saveHero()
+	{
+		SQLHero sqlHero = gameController.getSqlManager().getSqlHero();;
+		if (sqlHero.exists(hero)) {
+			sqlHero.updateHero(hero);
+			System.out.println(hero.getName() + " stats have been updated!");
+		} else {
+			sqlHero.insert(hero);
+			System.out.println(hero.getName() + " stats have been saved!");
+		}
 	}
 
 	public Hero getHero() {
